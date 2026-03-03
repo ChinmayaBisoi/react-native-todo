@@ -7,8 +7,8 @@ describe('TodoList', () => {
     render(
       <TodoList items={[]} onToggle={jest.fn()} onRemove={jest.fn()} />
     );
-    expect(screen.getByText('No tasks yet')).toBeOnTheScreen();
-    expect(screen.getByText('Add one above to get started.')).toBeOnTheScreen();
+    expect(screen.getByText('No tasks yet')).toBeTruthy();
+    expect(screen.getByText('Add one above to get started.')).toBeTruthy();
   });
 
   it('renders list of TodoItems', () => {
@@ -21,8 +21,8 @@ describe('TodoList', () => {
     render(
       <TodoList items={items} onToggle={onToggle} onRemove={onRemove} />
     );
-    expect(screen.getByText('First')).toBeOnTheScreen();
-    expect(screen.getByText('Second')).toBeOnTheScreen();
+    expect(screen.getByText('First')).toBeTruthy();
+    expect(screen.getByText('Second')).toBeTruthy();
   });
 
   it('calls onToggle when item is toggled', () => {

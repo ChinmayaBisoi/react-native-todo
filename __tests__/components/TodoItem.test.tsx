@@ -16,7 +16,7 @@ describe('TodoItem', () => {
     render(
       <TodoItem item={defaultItem} onToggle={onToggle} onRemove={onRemove} />
     );
-    expect(screen.getByText('Test task')).toBeOnTheScreen();
+    expect(screen.getByText('Test task')).toBeTruthy();
   });
 
   it('calls onToggle when checkbox is pressed', () => {
@@ -39,7 +39,7 @@ describe('TodoItem', () => {
     expect(onRemove).toHaveBeenCalledWith('1');
   });
 
-  it('shows strikethrough when done', () => {
+  it('applies done styling when item.done is true', () => {
     const doneItem = { ...defaultItem, done: true };
     render(
       <TodoItem
@@ -49,6 +49,12 @@ describe('TodoItem', () => {
       />
     );
     const label = screen.getByText('Test task');
-    expect(label).toHaveStyle({ textDecorationLine: 'line-through' });
+    const styles = Array.isArray(label.props.style)
+      ? label.props.style
+      : [label.props.style];
+    const hasStrikethrough = styles.some(
+      (s: { textDecorationLine?: string }) => s?.textDecorationLine === 'line-through'
+    );
+    expect(hasStrikethrough).toBe(true);
   });
 });

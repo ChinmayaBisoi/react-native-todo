@@ -6,8 +6,8 @@ describe('TodoInput', () => {
   it('renders input and Add button', () => {
     const onSubmit = jest.fn();
     render(<TodoInput onSubmit={onSubmit} />);
-    expect(screen.getByPlaceholderText('Add a task')).toBeOnTheScreen();
-    expect(screen.getByText('Add')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Add a task')).toBeTruthy();
+    expect(screen.getByText('Add')).toBeTruthy();
   });
 
   it('calls onSubmit with trimmed title and clears input', () => {
@@ -38,6 +38,6 @@ describe('TodoInput', () => {
 
   it('uses custom placeholder', () => {
     render(<TodoInput onSubmit={jest.fn()} placeholder="New task" />);
-    expect(screen.getByPlaceholderText('New task')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('New task')).toBeTruthy();
   });
 });
