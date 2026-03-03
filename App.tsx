@@ -1,36 +1,11 @@
-import { useCallback, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { theme } from './theme';
-import type { Todo } from './types';
-import { TodoInput } from './components/TodoInput';
-import { TodoList } from './components/TodoList';
-
-function genId() {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-}
+import { useTodos } from './hooks/useTodos';
+import { TodoInput, TodoList } from './components';
 
 export default function App() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const addTodo = useCallback((title: string) => {
-    setTodos((prev) => [
-      { id: genId(), title, done: false, createdAt: Date.now() },
-      ...prev,
-    ]);
-  }, []);
-
-  const toggleTodo = useCallback((id: string) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, done: !t.done } : t))
-    );
-  }, []);
-
-  const removeTodo = useCallback((id: string) => {
-    setTodos((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
-  const doneCount = todos.filter((t) => t.done).length;
+  const { todos, addTodo, toggleTodo, removeTodo, doneCount } = useTodos();
 
   return (
     <View style={styles.root}>

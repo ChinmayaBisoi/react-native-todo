@@ -19,6 +19,7 @@ export function TodoItem({ item, onToggle, onRemove }: Props) {
   return (
     <View style={styles.row}>
       <TouchableOpacity
+        testID={`todo-toggle-${item.id}`}
         onPress={() => onToggle(item.id)}
         style={styles.checkWrap}
         activeOpacity={0.7}
@@ -34,6 +35,7 @@ export function TodoItem({ item, onToggle, onRemove }: Props) {
         {item.title}
       </Text>
       <Pressable
+        testID={`todo-remove-${item.id}`}
         onPress={() => onRemove(item.id)}
         style={({ pressed }) => [styles.remove, pressed && styles.removePressed]}
         hitSlop={12}
