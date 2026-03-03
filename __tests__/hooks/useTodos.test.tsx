@@ -16,7 +16,7 @@ function TestHost({ initial = [] }: { initial?: Array<{ id: string; title: strin
 describe('useTodos', () => {
   it('starts with empty list', () => {
     render(<TestHost />);
-    expect(screen.getByText('No tasks yet')).toBeTruthy();
+    expect(screen.getByText('No tasks')).toBeTruthy();
   });
 
   it('accepts initial todos', () => {
@@ -31,7 +31,7 @@ describe('useTodos', () => {
 
   it('addTodo appends a new todo', () => {
     render(<TestHost />);
-    fireEvent.changeText(screen.getByPlaceholderText('Add a task'), 'New task');
+    fireEvent.changeText(screen.getByPlaceholderText('Add a task…'), 'New task');
     fireEvent.press(screen.getByText('Add'));
     expect(screen.getByText('New task')).toBeTruthy();
   });

@@ -6,14 +6,14 @@ describe('TodoInput', () => {
   it('renders input and Add button', () => {
     const onSubmit = jest.fn();
     render(<TodoInput onSubmit={onSubmit} />);
-    expect(screen.getByPlaceholderText('Add a task')).toBeTruthy();
+    expect(screen.getByPlaceholderText('Add a task…')).toBeTruthy();
     expect(screen.getByText('Add')).toBeTruthy();
   });
 
   it('calls onSubmit with trimmed title and clears input', () => {
     const onSubmit = jest.fn();
     render(<TodoInput onSubmit={onSubmit} />);
-    const input = screen.getByPlaceholderText('Add a task');
+    const input = screen.getByPlaceholderText('Add a task…');
     fireEvent.changeText(input, '  Buy milk  ');
     fireEvent.press(screen.getByText('Add'));
     expect(onSubmit).toHaveBeenCalledTimes(1);
@@ -31,7 +31,7 @@ describe('TodoInput', () => {
   it('disables submit when only whitespace', () => {
     const onSubmit = jest.fn();
     render(<TodoInput onSubmit={onSubmit} />);
-    fireEvent.changeText(screen.getByPlaceholderText('Add a task'), '   ');
+    fireEvent.changeText(screen.getByPlaceholderText('Add a task…'), '   ');
     fireEvent.press(screen.getByText('Add'));
     expect(onSubmit).not.toHaveBeenCalled();
   });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { theme } from '../theme';
+import { FlatList, Box, Text, VStack, Heading } from '@gluestack-ui/themed';
 import type { Todo } from '../types';
 import { TodoItem } from './TodoItem';
 
@@ -13,10 +12,27 @@ type Props = {
 export function TodoList({ items, onToggle, onRemove }: Props) {
   if (items.length === 0) {
     return (
-      <View style={styles.empty}>
-        <Text style={styles.emptyTitle}>No tasks yet</Text>
-        <Text style={styles.emptySub}>Add one above to get started.</Text>
-      </View>
+      <VStack flex={1} justifyContent="center" alignItems="center" px="$8" py="$12">
+        <Box
+          w="$24"
+          h="$24"
+          borderRadius="$full"
+          bg="$backgroundLight200"
+          justifyContent="center"
+          alignItems="center"
+          mb="$4"
+        >
+          <Text size="4xl" color="$textLight400">
+            ○
+          </Text>
+        </Box>
+        <Heading size="sm" color="$textLight700" mb="$1">
+          No tasks
+        </Heading>
+        <Text size="sm" color="$textLight500" textAlign="center">
+          Add one above to get started
+        </Text>
+      </VStack>
     );
   }
 
@@ -27,31 +43,11 @@ export function TodoList({ items, onToggle, onRemove }: Props) {
       renderItem={({ item }) => (
         <TodoItem item={item} onToggle={onToggle} onRemove={onRemove} />
       )}
-      contentContainerStyle={styles.list}
+      contentContainerStyle={{
+        paddingTop: 8,
+        paddingBottom: 32,
+      }}
       showsVerticalScrollIndicator={false}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  list: {
-    paddingBottom: theme.spacing.xxl,
-  },
-  empty: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: theme.spacing.xl,
-  },
-  emptyTitle: {
-    fontSize: theme.typography.bodySize,
-    color: theme.colors.textMuted,
-    letterSpacing: theme.typography.labelLetterSpacing,
-    marginBottom: theme.spacing.xs,
-  },
-  emptySub: {
-    fontSize: theme.typography.captionSize,
-    color: theme.colors.textMuted,
-    opacity: 0.7,
-  },
-});

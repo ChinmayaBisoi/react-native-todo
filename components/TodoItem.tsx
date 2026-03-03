@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  View,
+  Box,
+  HStack,
   Text,
-  StyleSheet,
-  TouchableOpacity,
+  Checkbox,
+  CheckboxIndicator,
   Pressable,
-} from 'react-native';
-import { theme } from '../theme';
+} from '@gluestack-ui/themed';
 import type { Todo } from '../types';
 
 type Props = {
@@ -17,91 +17,57 @@ type Props = {
 
 export function TodoItem({ item, onToggle, onRemove }: Props) {
   return (
-    <View style={styles.row}>
-      <TouchableOpacity
-        testID={`todo-toggle-${item.id}`}
-        onPress={() => onToggle(item.id)}
-        style={styles.checkWrap}
-        activeOpacity={0.7}
+    <Box
+      mb="$3"
+      bg="$backgroundLight0"
+      borderRadius="$xl"
+      borderWidth="$1"
+      borderColor="$borderLight200"
+      overflow="hidden"
+    >
+      <HStack
+        alignItems="center"
+        py="$3"
+        px="$4"
+        gap="$3"
       >
-        <View style={[styles.check, item.done && styles.checkDone]}>
-          {item.done && <View style={styles.checkDot} />}
-        </View>
-      </TouchableOpacity>
-      <Text
-        style={[styles.label, item.done && styles.labelDone]}
-        numberOfLines={1}
-      >
-        {item.title}
-      </Text>
-      <Pressable
-        testID={`todo-remove-${item.id}`}
-        onPress={() => onRemove(item.id)}
-        style={({ pressed }) => [styles.remove, pressed && styles.removePressed]}
-        hitSlop={12}
-      >
-        <Text style={styles.removeText}>×</Text>
-      </Pressable>
-    </View>
+        <Checkbox
+          value={item.id}
+          testID={`todo-toggle-${item.id}`}
+          size="md"
+          isChecked={item.done}
+          onChange={() => onToggle(item.id)}
+          aria-label={item.title}
+        >
+          <CheckboxIndicator borderColor="$primary500">
+            {item.done ? (
+              <Text color="$primary500" size="sm" fontWeight="$bold">✓</Text>
+            ) : null}
+          </CheckboxIndicator>
+        </Checkbox>
+        <Text
+          flex={1}
+          size="md"
+          color={item.done ? '$textLight500' : '$textLight900'}
+          textDecorationLine={item.done ? 'line-through' : 'none'}
+          numberOfLines={1}
+        >
+          {item.title}
+        </Text>
+        <Pressable
+          testID={`todo-remove-${item.id}`}
+          onPress={() => onRemove(item.id)}
+          hitSlop={12}
+          p="$2"
+          borderRadius="$full"
+          $pressed={{ bg: '$backgroundLight100' }}
+          $hover={{ bg: '$backgroundLight100' }}
+        >
+          <Text size="lg" color="$textLight400">
+            ×
+          </Text>
+        </Pressable>
+      </HStack>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
-  },
-  checkWrap: {
-    marginRight: theme.spacing.md,
-  },
-  check: {
-    width: 22,
-    height: 22,
-    borderRadius: theme.radius.full,
-    borderWidth: 2,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkDone: {
-    borderColor: theme.colors.accent,
-    backgroundColor: theme.colors.accentDim,
-  },
-  checkDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme.colors.accent,
-  },
-  label: {
-    flex: 1,
-    fontSize: theme.typography.bodySize,
-    color: theme.colors.text,
-    letterSpacing: 0.2,
-  },
-  labelDone: {
-    color: theme.colors.done,
-    textDecorationLine: 'line-through',
-  },
-  remove: {
-    width: 32,
-    height: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: theme.radius.full,
-  },
-  removePressed: {
-    backgroundColor: theme.colors.danger + '30',
-  },
-  removeText: {
-    fontSize: 22,
-    color: theme.colors.textMuted,
-    lineHeight: 24,
-    fontWeight: '300',
-  },
-});
